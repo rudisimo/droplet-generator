@@ -1,4 +1,4 @@
-# DigitalOcean VPS Generator
+# DigitalOcean Droplet Generator
 
 A Vagrant + Puppet configuration environment to create and deploy [DigitalOcean][3] droplets.
 
