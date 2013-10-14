@@ -2,4 +2,6 @@
 .vagrant/
 files/*
 !files/.gitkeep
+manifests/*
+!manifests/.gitkeep
 Vagrantfile
