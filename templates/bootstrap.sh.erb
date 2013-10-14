@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if [[ ! -f /.vagrant-init ]]; then
+  # timezone
+  echo "<%= @config.vm_timezone %>" | sudo tee /etc/timezone
+  dpkg-reconfigure --frontend noninteractive tzdata
+  # other
+  sudo apt-get update
+  sudo apt-get install puppet -y
+  sudo touch /.vagrant-init
+fi

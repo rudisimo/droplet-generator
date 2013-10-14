@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "<%= @config.vm_box %>"
+  config.vm.box_url = "<%= @config.vm_box_url %>"
+  config.vm.hostname = "<%= @config.vm_hostname %>"
+  config.vm.network :forwarded_port, guest: 80, host: <%= @config.vm_http_port %>
+
+  config.ssh.username = "<%= @config.ssh_username %>"
+  config.ssh.private_key_path = "<%= @config.ssh_private_key %>"
+  config.ssh.forward_agent = true
+
+  config.vm.provider :virtualbox do |provider|
+    provider.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    provider.customize ["modifyvm", :id, "--memory", <%= @config.vm_memory %>]
+  end
+
+  config.vm.provider :digital_ocean do |provider|
+    provider.client_id = "<%= @config.do_client_id %>"
+    provider.api_key = "<%= @config.do_api_key %>"
+    provider.image = "<%= @config.do_image %>"
+    provider.region = "<%= @config.do_region %>"
+    provider.size = "<%= @config.do_size %>"
+  end
+
+  config.vm.synced_folder "./files/www", "/var/www", id: "vagrant-root"
+  config.vm.provision :shell, :path => "./files/env/bootstrap.sh"
+
+  config.vm.provision :puppet do |puppet|
+    puppet.manifests_path = "manifests"
+    puppet.module_path = "modules"
+    puppet.options = ["--verbose"]
+  end
+end
+

@@ -1,0 +1,38 @@
+group { "puppet": ensure => present }
+Exec { path => [ "/usr/local/bin", "/bin/", "/sbin/", "/usr/bin/", "/usr/sbin/" ] }
+File { owner => 0, group => 0, mode => 0644 }
+
+file { "/usr/local/bin/":
+  ensure => "directory",
+  owner => 0,
+  group => 0,
+  mode => 0755,
+}
+
+class {"apt":
+  always_apt_update => true,
+}
+
+Class["::apt::update"] -> Package <|
+    title != "python-software-properties"
+and title != "software-properties-common"
+|>
+
+class { "puphpet::dotfiles":
+  source => "/vagrant/files/dot",
+  target => "/home/<%= @config.ssh_username %>/",
+}
+
+package { [
+    "build-essential",
+    "libssl-dev",
+    "libev-dev",
+    "libpcre3",
+    "libpcre3-dev",
+    "git-core",
+    "vim",
+    "curl",
+    "wget",
+  ]:
+  ensure => "installed",
+}
