@@ -76,8 +76,8 @@ class Configuration
         @do_image = row["do_image"] unless row["do_image"].nil?
         @do_region = row["do_region"] unless row["do_region"].nil?
         @do_size = row["do_size"] unless row["do_size"].nil?
-        @ssh_private_key = row["ssh_private_key"] unless row["ssh_private_key"].nil?
         @ssh_username = row["ssh_username"] unless row["ssh_username"].nil?
+        @ssh_private_key = row["ssh_private_key"] unless row["ssh_private_key"].nil?
       end
     end
   end
@@ -100,8 +100,8 @@ class Configuration
         stm.bind_param("do_image", @do_image)
         stm.bind_param("do_region", @do_region)
         stm.bind_param("do_size", @do_size)
-        stm.bind_param("ssh_private_key", @ssh_private_key)
         stm.bind_param("ssh_username", @ssh_username)
+        stm.bind_param("ssh_private_key", @ssh_private_key)
         stm.execute
       end
       locate
@@ -125,8 +125,8 @@ class Configuration
           :do_image,
           :do_region,
           :do_size,
+          :ssh_username,
           :ssh_private_key
-          :ssh_username
         )
     SQL
   end
@@ -146,8 +146,8 @@ class Configuration
           do_image = :do_image,
           do_region = :do_region,
           do_size = :do_size,
-          ssh_private_key = :ssh_private_key,
-          ssh_username = :ssh_username
+          ssh_username = :ssh_username,
+          ssh_private_key = :ssh_private_key
         WHERE id = :id
     SQL
   end
